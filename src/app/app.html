@@ -1,0 +1,127 @@
+<div class="min-h-screen bg-slate-50 flex w-full rtl text-right overflow-hidden relative">
+  <!-- Mobile Overlay -->
+  @if (isSidebarOpen()) {
+    <div class="fixed inset-0 bg-slate-900/50 z-20 md:hidden backdrop-blur-sm transition-opacity" (click)="isSidebarOpen.set(false)"></div>
+  }
+
+  <!-- Sidebar -->
+  <aside 
+    [class]="'fixed md:relative top-0 bottom-0 right-0 bg-white border-e border-slate-200 flex-shrink-0 flex flex-col shadow-2xl md:shadow-[1px_0_10px_rgba(0,0,0,0.03)] z-30 transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ' + 
+    (isSidebarOpen() ? 'w-64 translate-x-0' : 'w-64 md:w-20 translate-x-full md:translate-x-0 overflow-hidden')">
+    
+    <div class="p-4 md:p-6 border-b border-slate-100 flex items-center justify-between min-h-[80px]">
+      <div [class]="'flex items-center gap-2 transition-opacity duration-300 whitespace-nowrap overflow-hidden ' + (isSidebarOpen() ? 'opacity-100 w-auto' : 'opacity-0 w-0 hidden md:block')">
+        <h1 class="text-xl font-black text-emerald-700 flex items-center gap-2">
+          <mat-icon>school</mat-icon>
+          أكاديمية طويق
+        </h1>
+      </div>
+      @if (!isSidebarOpen()) {
+        <mat-icon class="hidden md:block text-emerald-700 mx-auto cursor-pointer" (click)="isSidebarOpen.set(true)">school</mat-icon>
+      }
+      <button aria-label="تبديل القائمة الجانبية" [attr.aria-expanded]="isSidebarOpen()" class="text-slate-400 hover:text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 transition-colors p-1 rounded-lg hover:bg-slate-50 shrink-0 hidden md:block" (click)="isSidebarOpen.set(!isSidebarOpen())">
+        <mat-icon>{{ isSidebarOpen() ? 'menu_open' : 'menu' }}</mat-icon>
+      </button>
+      <button aria-label="إغلاق القائمة الجانبية" [attr.aria-expanded]="isSidebarOpen()" class="text-slate-400 hover:text-emerald-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 transition-colors p-1 rounded-lg hover:bg-slate-50 shrink-0 md:hidden" (click)="isSidebarOpen.set(false)">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    
+    <div [class]="'p-6 pt-2 pb-0 transition-opacity duration-300 whitespace-nowrap overflow-hidden ' + (isSidebarOpen() ? 'opacity-100' : 'opacity-0 hidden md:block md:w-0 md:h-0 md:p-0')">
+      <p class="text-[11px] font-bold text-slate-400 mt-2 uppercase tracking-widest text-right">أساسيات الويب - رؤية 2030</p>
+    </div>
+    
+    <nav aria-label="القائمة الرئيسية" class="p-3 md:p-4 flex-1 flex flex-col gap-2 overflow-y-auto no-scrollbar overflow-x-hidden">
+      <button (click)="selectLesson('intro')"
+        [attr.aria-current]="currentLesson() === 'intro' ? 'page' : null"
+        [title]="!isSidebarOpen() ? 'المقدمة والرؤية' : ''"
+        [class]="'flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 gap-3 px-4 py-3 rounded-xl transition-all whitespace-nowrap font-bold text-sm group relative ' + (currentLesson() === 'intro' ? 'bg-emerald-50 text-emerald-700' : 'text-slate-600 hover:bg-slate-50') + (!isSidebarOpen() ? ' md:px-0 md:justify-center' : '')">
+        <mat-icon class="relative z-10 shrink-0">explore</mat-icon>
+        <span [class]="'transition-all duration-300 ' + (isSidebarOpen() ? 'opacity-100' : 'md:opacity-0 md:w-0 overflow-hidden')">المقدمة والرؤية</span>
+      </button>
+      <button (click)="selectLesson('html')"
+        [attr.aria-current]="currentLesson() === 'html' ? 'page' : null"
+        [title]="!isSidebarOpen() ? 'HTML (الهيكل)' : ''"
+        [class]="'flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 gap-3 px-4 py-3 rounded-xl transition-all whitespace-nowrap font-bold text-sm group relative ' + (currentLesson() === 'html' ? 'bg-emerald-50 text-emerald-700' : 'text-slate-600 hover:bg-slate-50') + (!isSidebarOpen() ? ' md:px-0 md:justify-center' : '')">
+        <mat-icon class="relative z-10 shrink-0">architecture</mat-icon>
+        <span [class]="'transition-all duration-300 ' + (isSidebarOpen() ? 'opacity-100' : 'md:opacity-0 md:w-0 overflow-hidden')">HTML (الهيكل)</span>
+      </button>
+      <button (click)="selectLesson('css')"
+        [attr.aria-current]="currentLesson() === 'css' ? 'page' : null"
+        [title]="!isSidebarOpen() ? 'CSS (التصميم)' : ''"
+        [class]="'flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 gap-3 px-4 py-3 rounded-xl transition-all whitespace-nowrap font-bold text-sm group relative ' + (currentLesson() === 'css' ? 'bg-emerald-50 text-emerald-700' : 'text-slate-600 hover:bg-slate-50') + (!isSidebarOpen() ? ' md:px-0 md:justify-center' : '')">
+        <mat-icon class="relative z-10 shrink-0">format_paint</mat-icon>
+        <span [class]="'transition-all duration-300 ' + (isSidebarOpen() ? 'opacity-100' : 'md:opacity-0 md:w-0 overflow-hidden')">CSS (التصميم)</span>
+      </button>
+      <button (click)="selectLesson('js')"
+        [attr.aria-current]="currentLesson() === 'js' ? 'page' : null"
+        [title]="!isSidebarOpen() ? 'JS (التفاعل)' : ''"
+        [class]="'flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 gap-3 px-4 py-3 rounded-xl transition-all whitespace-nowrap font-bold text-sm group relative ' + (currentLesson() === 'js' ? 'bg-emerald-50 text-emerald-700' : 'text-slate-600 hover:bg-slate-50') + (!isSidebarOpen() ? ' md:px-0 md:justify-center' : '')">
+        <mat-icon class="relative z-10 shrink-0">settings_ethernet</mat-icon>
+        <span [class]="'transition-all duration-300 ' + (isSidebarOpen() ? 'opacity-100' : 'md:opacity-0 md:w-0 overflow-hidden')">JS (التفاعل)</span>
+      </button>
+      <div class="h-px bg-slate-100 my-1 md:my-2 w-full" aria-hidden="true"></div>
+      <button (click)="selectLesson('quiz')"
+        [attr.aria-current]="currentLesson() === 'quiz' ? 'page' : null"
+        [title]="!isSidebarOpen() ? 'تحدي المعرفة (Quiz)' : ''"
+        [class]="'flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 gap-3 px-4 py-3 rounded-xl transition-all whitespace-nowrap font-bold text-sm group relative ' + (currentLesson() === 'quiz' ? 'bg-amber-50 text-amber-700' : 'text-slate-600 hover:bg-amber-50') + (!isSidebarOpen() ? ' md:px-0 md:justify-center' : '')">
+        <mat-icon class="relative z-10 shrink-0 text-amber-500">workspace_premium</mat-icon>
+        <span [class]="'transition-all duration-300 ' + (isSidebarOpen() ? 'opacity-100' : 'md:opacity-0 md:w-0 overflow-hidden')">تحدي المعرفة (Quiz)</span>
+      </button>
+      <button (click)="selectLesson('project')"
+        [attr.aria-current]="currentLesson() === 'project' ? 'page' : null"
+        [title]="!isSidebarOpen() ? 'المشروع الختامي' : ''"
+        [class]="'flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 gap-3 px-4 py-3 rounded-xl transition-all whitespace-nowrap font-bold text-sm group relative ' + (currentLesson() === 'project' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-indigo-50') + (!isSidebarOpen() ? ' md:px-0 md:justify-center' : '')">
+        <mat-icon class="relative z-10 shrink-0 text-indigo-500">rocket_launch</mat-icon>
+        <span [class]="'transition-all duration-300 ' + (isSidebarOpen() ? 'opacity-100' : 'md:opacity-0 md:w-0 overflow-hidden')">المشروع الختامي</span>
+      </button>
+    </nav>
+    <div [class]="'p-4 transition-opacity duration-300 whitespace-nowrap overflow-hidden ' + (isSidebarOpen() ? 'opacity-100' : 'opacity-0 hidden md:block md:w-0 md:h-0 md:p-0')">
+      <div class="bg-gradient-to-b from-slate-50 to-slate-100 rounded-2xl p-4 flex flex-col items-center justify-center text-center border border-slate-200 mb-4">
+        <mat-icon class="text-emerald-500 mb-2 drop-shadow-sm">code</mat-icon>
+        <span class="text-xs font-bold text-slate-700">مبرمجي المستقبل</span>
+        <span class="text-[10px] text-slate-500 mt-1 leading-relaxed whitespace-break-spaces">ساهم في تحقيق رؤية 2030 عبر تعلم التقنية</span>
+      </div>
+      
+      <div class="pt-4 border-t border-slate-100 text-center flex flex-col gap-1.5 whitespace-nowrap">
+        <span class="text-[10.5px] font-medium text-slate-500">مدرسة: ثانوية الركوبة - مسارات</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="flex-1 overflow-auto h-screen relative scroll-smooth text-right transition-all duration-300 bg-slate-50" dir="rtl" tabindex="-1">
+    
+    <!-- Mobile header to open sidebar -->
+    <div class="md:hidden sticky top-0 bg-white/80 backdrop-blur-md z-20 border-b border-slate-200 p-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+         <mat-icon class="text-emerald-600">school</mat-icon>
+         <span class="font-bold text-emerald-800 text-lg">أكاديمية طويق</span>
+      </div>
+      <button (click)="isSidebarOpen.set(true)" class="bg-slate-100 p-2 rounded-xl text-slate-600 hover:bg-slate-200 transition-colors">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+
+    <div class="max-w-6xl mx-auto p-4 md:p-8 pb-32">
+      @if (currentLesson() === 'intro') {
+        <app-intro-lesson></app-intro-lesson>
+      }
+      @if (currentLesson() === 'html') {
+        <app-html-lesson></app-html-lesson>
+      }
+      @if (currentLesson() === 'css') {
+        <app-css-lesson></app-css-lesson>
+      }
+      @if (currentLesson() === 'js') {
+        <app-js-lesson></app-js-lesson>
+      }
+      @if (currentLesson() === 'quiz') {
+        <app-quiz-lesson></app-quiz-lesson>
+      }
+      @if (currentLesson() === 'project') {
+        <app-project-lesson></app-project-lesson>
+      }
+    </div>
+  </main>
+</div>
